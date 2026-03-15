@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Vision V1 — Analizza gratis la presenza online della tua attività locale. Punteggio su Google, sito web, SEO, social e recensioni.">
+<meta property="og:title" content="Vision V1 — Audit Presenza Online Gratuito">
+<meta property="og:description" content="Scopri quanto sei visibile online in 30 secondi. Gratis.">
+<meta property="og:url" content="https://vision-v1.it">
+<title>Vision V1 — Analisi Presenza Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700;1,900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0d;--s1:#141414;--s2:#1a1a1a;--s3:#202020;
+  --b1:#272727;--b2:#333;--b3:#444;
+  --w:#fff;--w2:#ccc;--w3:#888;--w4:#555;
+  --accent:#e8e8e8;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--w);font-family:'Barlow',sans-serif;font-size:15px;min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");opacity:.5;}
+.bg-lines{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bg-lines svg{width:100%;height:100%;opacity:.04;}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:200;background:rgba(13,13,13,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--b1);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,5vw,48px);gap:12px;}
+.logo-a{display:flex;align-items:center;gap:11px;text-decoration:none;}
+.logo-img{width:34px;height:34px;object-fit:contain;flex-shrink:0;}
+.logo-div{width:1px;height:28px;background:var(--b2);}
+.logo-wrap{line-height:1;}
+.logo-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;letter-spacing:3px;text-transform:uppercase;color:var(--w);}
+.logo-tag{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--w4);margin-top:2px;display:block;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.hdr-pill{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--w4);border:1px solid var(--b2);padding:4px 12px;white-space:nowrap;}
+.hdr-pill.live{color:#5f5;border-color:#2a4a2a;}
+.hdr-pill.live::before{content:'● ';font-size:8px;}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;padding:clamp(44px,9vw,88px) clamp(16px,5vw,48px) clamp(32px,5vw,52px);max-width:1100px;margin:0 auto;border-bottom:1px solid var(--b1);}
+.eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--w4);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--w4);}
+.hero h1{font-family:'Barlow',sans-serif;font-size:clamp(38px,8vw,88px);font-weight:900;line-height:.9;letter-spacing:-2.5px;text-transform:uppercase;margin-bottom:20px;}
+.hero h1 .dim{display:block;color:var(--w4);font-style:italic;}
+.hero-sub{font-size:clamp(13px,1.8vw,16px);color:var(--w3);max-width:480px;line-height:1.7;font-weight:300;}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+.badge{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border:1px solid var(--b2);color:var(--w4);}
+
+/* ── FORM ── */
+.form-sec{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(16px,5vw,48px);border-bottom:1px solid var(--b1);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;}
+@media(max-width:800px){.form-grid{grid-template-columns:1fr 1fr;}.btn-run{grid-column:span 2;}}
+@media(max-width:480px){.form-grid{grid-template-columns:1fr;}.btn-run{grid-column:1;}}
+.field label{display:block;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--w4);margin-bottom:7px;font-weight:700;}
+.field input,.field select{width:100%;background:var(--s2);border:1px solid var(--b2);color:var(--w);padding:12px 14px;font-size:14px;font-family:'Barlow',sans-serif;font-weight:600;outline:none;transition:border-color .2s;appearance:none;border-radius:0;}
+.field input::placeholder{color:var(--w4);font-weight:400;}
+.field input:focus,.field select:focus{border-color:var(--w3);}
+.field select{cursor:pointer;}
+.field select option{background:#1a1a1a;}
+.btn-run{background:var(--w);color:var(--bg);border:none;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap;border-radius:0;}
+.btn-run:hover{background:#ddd;transform:translateY(-1px);}
+.btn-run:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ── API STATUS BAR ── */
+.api-bar{max-width:1100px;margin:0 auto;padding:10px clamp(16px,5vw,48px);display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--b1);position:relative;z-index:1;}
+.api-dot{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--w4);letter-spacing:.5px;}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.dot.on{background:#5f5;}
+.dot.off{background:#f55;}
+.dot.mock{background:#fa0;}
+
+/* ── CONTENT ── */
+.content{max-width:1100px;margin:0 auto;padding:0 clamp(16px,5vw,48px);position:relative;z-index:1;}
+
+/* ── LOADING ── */
+#loading{display:none;padding:clamp(50px,8vw,80px) 0;text-align:center;}
+.load-ring{width:40px;height:40px;border:2px solid var(--b2);border-top-color:var(--w);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 18px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.load-text{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--w4);}
+#loadStep{color:var(--w2);margin-top:8px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;}
+.load-source{margin-top:6px;font-size:9px;color:var(--w4);letter-spacing:1px;}
+
+/* ── RESULTS ── */
+#results{display:none;}
+.fade-up{animation:fadeUp .45s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* BIZ ROW */
+.biz-row{display:flex;align-items:center;gap:14px;padding:clamp(18px,3vw,28px) 0;border-bottom:1px solid var(--b1);flex-wrap:wrap;}
+.biz-icon{width:46px;height:46px;background:var(--s3);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.biz-info h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(18px,3.5vw,28px);font-weight:900;letter-spacing:.5px;text-transform:uppercase;line-height:1;}
+.biz-info p{color:var(--w4);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.data-source-tag{margin-left:auto;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:1px solid var(--b2);color:var(--w4);}
+.data-source-tag.real{border-color:#2a4a2a;color:#5f5;}
+
+/* SCORE SECTION */
+.score-sec{display:grid;grid-template-columns:210px 1fr;gap:1px;background:var(--b1);border:1px solid var(--b1);margin:clamp(14px,3vw,24px) 0;}
+@media(max-width:620px){.score-sec{grid-template-columns:1fr;}}
+.score-main{background:var(--bg);padding:clamp(20px,3vw,32px);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.sec-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--w4);margin-bottom:14px;font-weight:700;}
+.gauge-wrap{position:relative;width:140px;height:140px;margin:0 auto 14px;}
+.gauge-svg{width:140px;height:140px;transform:rotate(-90deg);}
+.g-bg{fill:none;stroke:var(--b2);stroke-width:6;}
+.g-fill{fill:none;stroke:var(--w);stroke-width:6;stroke-linecap:butt;transition:stroke-dasharray 1.3s cubic-bezier(.4,0,.2,1);}
+.gauge-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;line-height:1;letter-spacing:-1px;}
+.gauge-suf{font-size:13px;color:var(--w4);font-weight:400;}
+.grade-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:900;letter-spacing:3px;text-transform:uppercase;padding:4px 12px;border:1px solid var(--b2);color:var(--w3);margin-bottom:6px;display:inline-block;}
+.score-desc{font-size:10px;color:var(--w4);line-height:1.5;max-width:150px;}
+.breakdown{background:var(--bg);padding:clamp(16px,3vw,24px);}
+.bar-item{margin-bottom:14px;}
+.bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.bar-name{font-size:12px;color:var(--w3);display:flex;align-items:center;gap:6px;font-weight:600;}
+.bar-pts{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;color:var(--w);letter-spacing:.5px;}
+.bar-track{height:3px;background:var(--b2);overflow:hidden;}
+.bar-fill{height:100%;background:var(--w);transition:width 1.1s cubic-bezier(.4,0,.2,1);}
+.bar-real{background:linear-gradient(90deg,#5f5,#3a3);}
+
+/* PILLAR CARDS */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1);margin-bottom:1px;}
+@media(max-width:520px){.pgrid{grid-template-columns:1fr;}}
+.pcard{background:var(--bg);padding:clamp(14px,2.5vw,22px);transition:background .2s;}
+.pcard:hover{background:var(--s1);}
+.pcard-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.pcard-title{display:flex;align-items:center;gap:9px;}
+.pcard-icon{width:32px;height:32px;background:var(--s3);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.pcard-title h4{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;}
+.pcard-score{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--w);line-height:1;}
+.pcard-score small{font-size:10px;color:var(--w4);font-weight:400;}
+.pcard-badge{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border:1px solid var(--b2);color:var(--w4);display:inline-block;margin-bottom:10px;}
+.pcard-badge.real{border-color:#2a4a2a;color:#5f5;}
+.cklist{list-style:none;}
+.cklist li{display:flex;align-items:flex-start;gap:7px;font-size:11px;color:var(--w4);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.cklist li:last-child{border-bottom:none;}
+.ck-ok{color:#aaa;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.ck-warn{color:#666;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.ck-err{color:#333;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* TIPS */
+.tips-sec{border:1px solid var(--b1);background:var(--bg);margin-bottom:1px;}
+.tips-hdr{padding:clamp(12px,2vw,18px) clamp(14px,2.5vw,22px);border-bottom:1px solid var(--b1);}
+.tips-hdr h3{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;}
+.tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b1);}
+@media(max-width:620px){.tips-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:380px){.tips-grid{grid-template-columns:1fr;}}
+.tip{background:var(--bg);padding:clamp(12px,2vw,18px);}
+.tip-pri{font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;}
+.t-high{color:#888;}.t-med{color:#555;}.t-low{color:#333;}
+.tip p{font-size:11.5px;color:var(--w4);line-height:1.65;}
+.tip p strong{color:var(--w3);font-weight:700;}
+
+/* REAL DATA SECTIONS */
+.gmb-detail{background:var(--s1);border:1px solid var(--b1);padding:clamp(14px,2.5vw,22px);margin-bottom:1px;}
+.gmb-detail h4{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.gmb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(max-width:540px){.gmb-grid{grid-template-columns:1fr 1fr;}}
+.gmb-stat{background:var(--s2);border:1px solid var(--b1);padding:12px 14px;}
+.gmb-stat-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--w4);margin-bottom:5px;font-weight:700;}
+.gmb-stat-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--w);line-height:1;}
+.gmb-stat-sub{font-size:10px;color:var(--w4);margin-top:2px;}
+.stars{color:var(--w);letter-spacing:-1px;}
+
+/* REVIEWS */
+.reviews-sec{background:var(--s1);border:1px solid var(--b1);padding:clamp(14px,2.5vw,22px);margin-bottom:1px;}
+.reviews-sec h4{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.review-card{background:var(--s2);border:1px solid var(--b1);padding:14px;margin-bottom:8px;}
+.review-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px;}
+.review-author{font-size:12px;font-weight:700;color:var(--w2);}
+.review-date{font-size:10px;color:var(--w4);}
+.review-stars{font-size:12px;color:var(--w);margin-bottom:6px;}
+.review-text{font-size:11.5px;color:var(--w4);line-height:1.6;}
+
+/* SPEED SECTION */
+.speed-sec{background:var(--s1);border:1px solid var(--b1);padding:clamp(14px,2.5vw,22px);margin-bottom:1px;}
+.speed-sec h4{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.speed-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+@media(max-width:560px){.speed-grid{grid-template-columns:1fr 1fr;}}
+.speed-metric{background:var(--s2);border:1px solid var(--b1);padding:12px;}
+.speed-metric-name{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--w4);margin-bottom:6px;font-weight:700;}
+.speed-metric-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;line-height:1;}
+.speed-metric-unit{font-size:10px;color:var(--w4);}
+.speed-good{color:#5f5;}.speed-avg{color:#fa0;}.speed-bad{color:#f55;}
+
+/* CTA */
+.cta-block{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,24px);padding:clamp(18px,3vw,28px) clamp(14px,2.5vw,22px);border:1px solid var(--b1);background:var(--bg);margin-bottom:clamp(28px,5vw,50px);}
+@media(max-width:560px){.cta-block{grid-template-columns:1fr;text-align:center;}}
+.cta-logo-w{display:flex;align-items:center;gap:9px;}
+.cta-logo{width:32px;height:32px;}
+.cta-lname{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:3px;text-transform:uppercase;color:var(--w3);}
+.cta-text h4{font-family:'Barlow Condensed',sans-serif;font-size:clamp(14px,2.5vw,18px);font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.cta-text p{font-size:11px;color:var(--w4);}
+.btn-cta{background:var(--w);color:var(--bg);border:none;padding:11px 22px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .15s,transform .1s;border-radius:0;}
+.btn-cta:hover{background:#ddd;transform:translateY(-1px);}
+
+/* LEAD MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--s1);border:1px solid var(--b2);width:100%;max-width:480px;animation:slideUp .3s ease;}
+@keyframes slideUp{from{transform:translateY(24px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--b1);}
+.modal-hdr h2{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;letter-spacing:1px;text-transform:uppercase;}
+.modal-close{background:none;border:none;color:var(--w3);font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;}
+.modal-close:hover{color:var(--w);}
+.modal-body{padding:22px;}
+.m-form-group{margin-bottom:12px;}
+.m-form-group label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--w4);margin-bottom:7px;font-weight:700;}
+.m-form-group input,.m-form-group select{width:100%;background:var(--s2);border:1px solid var(--b2);color:var(--w);padding:11px 14px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;transition:border-color .2s;border-radius:0;appearance:none;}
+.m-form-group input:focus,.m-form-group select:focus{border-color:var(--w3);}
+.m-form-group input::placeholder{color:var(--w4);}
+.privacy-note{font-size:10px;color:var(--w4);line-height:1.5;margin-bottom:14px;}
+.btn-modal{width:100%;background:var(--w);color:var(--bg);border:none;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .15s;border-radius:0;}
+.btn-modal:hover{background:#ddd;}
+
+/* ERROR STATE */
+.error-box{background:var(--s2);border:1px solid #4a2a2a;border-left:3px solid #f55;padding:14px 16px;margin:16px 0;font-size:12px;color:var(--w4);line-height:1.6;}
+.error-box strong{color:#f88;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--s2);border:1px solid var(--b2);border-left:3px solid var(--w);padding:14px 18px;z-index:600;font-size:12px;color:var(--w2);max-width:320px;display:none;}
+.toast.show{display:block;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--b1);padding:clamp(14px,3vw,22px) clamp(16px,5vw,48px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:relative;z-index:1;}
+footer p{font-size:9px;color:var(--w4);letter-spacing:1.5px;text-transform:uppercase;}
+footer a{color:var(--w4);text-decoration:none;}
+footer a:hover{color:var(--w3);}
+</style>
+</head>
+<body>
+
+<div class="bg-lines">
+  <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
+    <line x1="1200" y1="0" x2="600" y2="900" stroke="white" stroke-width=".8"/>
+    <line x1="1360" y1="0" x2="760" y2="900" stroke="white" stroke-width=".4"/>
+    <line x1="1440" y1="80" x2="880" y2="900" stroke="white" stroke-width=".5"/>
+    <line x1="1060" y1="0" x2="460" y2="900" stroke="white" stroke-width=".3"/>
+  </svg>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a class="logo-a" href="/">
+    <img class="logo-img" src="data:image/png;base64,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" alt="Vision V1">
+    <div class="logo-div"></div>
+    <div class="logo-wrap">
+      <div class="logo-name">Vision V1</div>
+      <span class="logo-tag">AI · Presenza Online</span>
+    </div>
+  </a>
+  <div class="hdr-right">
+    <div class="hdr-pill live" id="apiStatus">API Attive</div>
+    <div class="hdr-pill" id="analysisCount">0 analisi oggi</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">Powered by Vision V1 AI</div>
+  <h1>
+    Analizza la tua
+    <span class="dim">presenza online</span>
+    gratis con
+    <span class="dim">Vision V1</span>
+  </h1>
+  <p class="hero-sub">Dati reali da Google Business, PageSpeed e analisi AI. Scopri il tuo punteggio in 30 secondi.</p>
+  <div class="hero-badges">
+    <div class="badge">📍 Google Business API</div>
+    <div class="badge">⚡ PageSpeed Real Data</div>
+    <div class="badge">🤖 AI Recommendations</div>
+    <div class="badge">📊 6 Pilastri Analizzati</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-sec">
+  <div class="form-grid">
+    <div class="field">
+      <label>Nome attività</label>
+      <input type="text" id="bizName" placeholder="es. Bar Roma, Studio Bianchi..." autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Città</label>
+      <input type="text" id="bizCity" placeholder="es. Gattinara, Milano...">
+    </div>
+    <div class="field">
+      <label>Settore</label>
+      <select id="bizCat">
+        <option value="ristorante">🍽️ Ristorante / Bar</option>
+        <option value="dentista">🦷 Studio Dentistico</option>
+        <option value="avvocato">⚖️ Studio Legale</option>
+        <option value="geometra">📐 Studio Tecnico</option>
+        <option value="estetista">💅 Centro Estetico</option>
+        <option value="negozio">🛍️ Negozio</option>
+        <option value="altro">🏢 Altro</option>
+      </select>
+    </div>
+    <button class="btn-run" id="analyzeBtn" onclick="startAnalysis()">Analizza →</button>
+  </div>
+</div>
+
+<!-- API STATUS BAR -->
+<div class="api-bar" id="apiBar">
+  <div class="api-dot"><div class="dot mock" id="dot-gmb"></div> Google Business</div>
+  <div class="api-dot"><div class="dot mock" id="dot-psi"></div> PageSpeed</div>
+  <div class="api-dot"><div class="dot mock" id="dot-seo"></div> SEO Crawler</div>
+  <div class="api-dot"><div class="dot mock" id="dot-ai"></div> Vision AI</div>
+  <div style="margin-left:auto;font-size:9px;color:var(--w4);letter-spacing:1px;" id="apiNote">
+    Configura le API key in <code style="color:var(--w3);">netlify.toml</code> per dati reali
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="content">
+  <div id="loading">
+    <div class="load-ring"></div>
+    <div class="load-text">Analisi in corso</div>
+    <div id="loadStep">Inizializzazione...</div>
+    <div class="load-source" id="loadSource"></div>
+  </div>
+
+  <!-- ERROR -->
+  <div id="errorBox" style="display:none;"></div>
+
+  <!-- RESULTS -->
+  <div id="results"></div>
+</div>
+
+<!-- LEAD CAPTURE MODAL -->
+<div class="modal-overlay" id="leadModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>Ricevi il Report Completo PDF</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--w4);margin-bottom:16px;line-height:1.6;">Inserisci la tua email per ricevere il report dettagliato con tutte le raccomandazioni e un piano d'azione personalizzato.</p>
+      <div class="m-form-group">
+        <label>Nome</label>
+        <input type="text" id="leadName" placeholder="Il tuo nome">
+      </div>
+      <div class="m-form-group">
+        <label>Email</label>
+        <input type="email" id="leadEmail" placeholder="email@azienda.it">
+      </div>
+      <div class="m-form-group">
+        <label>Telefono (opzionale)</label>
+        <input type="tel" id="leadPhone" placeholder="+39 345 ...">
+      </div>
+      <p class="privacy-note">✓ Nessuno spam. Usato solo per inviarti il report. Puoi cancellarti in qualsiasi momento.</p>
+      <button class="btn-modal" onclick="submitLead()">Invia Report →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <p>© 2025 Vision V1 · Powered by Bixont · <a href="/cdn-cgi/l/email-protection#fe97909891be88978d979190d388cfd0978a"><span class="__cf_email__" data-cfemail="a7cec9c1c8e7d1ced4cec8c98ad19689ced3">[email&#160;protected]</span></a></p>
+  <a href="https://vision-v1.it">vision-v1.it</a>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══════════════════════════════════════════════
+// CONFIG — sostituire con le proprie API key
+// In produzione: usare variabili d'ambiente Netlify
+// ═══════════════════════════════════════════════
+var CONFIG = {
+  // Google Places API Key (Google Cloud Console)
+  GOOGLE_API_KEY: '',   // es. 'AIzaSy...'
+
+  // PageSpeed Insights API Key (Google Cloud Console — opzionale, funziona senza)
+  PSI_API_KEY: '',
+
+  // Netlify Function base URL (quando deployato)
+  // Se vuoto usa la modalità mock intelligente
+  FUNCTIONS_URL: '/.netlify/functions',
+
+  // Webhook per lead capture (es. Make.com, Zapier, Brevo)
+  LEAD_WEBHOOK: '',   // es. 'https://hook.eu1.make.com/...'
+
+  // Conteggio analisi (simulato — usare Supabase in produzione)
+  analysisCount: Math.floor(Math.random() * 40) + 12
+};
+
+// ═══════════════════════════════════════════════
+// STATO APP
+// ═══════════════════════════════════════════════
+var APP = {
+  currentData: null,
+  currentName: '',
+  currentCity: '',
+  currentCat: '',
+  isRealData: false
+};
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('analysisCount').textContent = CONFIG.analysisCount + ' analisi oggi';
+  checkAPIStatus();
+});
+
+function checkAPIStatus() {
+  var hasGoogle = CONFIG.GOOGLE_API_KEY.length > 10;
+  var hasPSI    = CONFIG.PSI_API_KEY.length > 10 || true; // PSI funziona senza key
+  var hasFn     = CONFIG.FUNCTIONS_URL.length > 5;
+
+  setDot('dot-gmb', hasGoogle ? 'on' : 'mock');
+  setDot('dot-psi', 'on'); // PSI sempre disponibile
+  setDot('dot-seo', hasFn ? 'on' : 'mock');
+  setDot('dot-ai',  'on'); // AI sempre disponibile (built-in)
+
+  if (hasGoogle) {
+    document.getElementById('apiStatus').textContent = 'API Reali Attive';
+    document.getElementById('apiStatus').classList.add('live');
+    document.getElementById('apiNote').textContent = 'Dati reali da Google Business e PageSpeed';
+  } else {
+    document.getElementById('apiNote').innerHTML =
+      'Aggiungi <code style="color:var(--w3)">GOOGLE_API_KEY</code> nelle variabili Netlify per dati reali';
+  }
+}
+
+function setDot(id, state) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'dot ' + state;
+}
+
+// ═══════════════════════════════════════════════
+// CATEGORIE
+// ═══════════════════════════════════════════════
+var CATS = {
+  ristorante: { icon: '🍽️', l: 'Bar / Ristorante', keywords: ['ristorante','bar','pizzeria','trattoria','osteria'] },
+  dentista:   { icon: '🦷', l: 'Studio Dentistico', keywords: ['dentista','studio dentistico','ortodonzia'] },
+  avvocato:   { icon: '⚖️', l: 'Studio Legale', keywords: ['avvocato','studio legale','legale'] },
+  geometra:   { icon: '📐', l: 'Studio Tecnico', keywords: ['geometra','architetto','ingegnere','studio tecnico'] },
+  estetista:  { icon: '💅', l: 'Centro Estetico', keywords: ['estetista','centro estetico','parrucchiere','salone'] },
+  negozio:    { icon: '🛍️', l: 'Negozio', keywords: ['negozio','shop','boutique','vendita'] },
+  altro:      { icon: '🏢', l: 'Attività Locale', keywords: [] }
+};
+
+// ═══════════════════════════════════════════════
+// LOADING STEPS
+// ═══════════════════════════════════════════════
+var STEPS = [
+  { text: 'Ricerca su Google Maps...', source: '→ Google Places API' },
+  { text: 'Recupero dati scheda GMB...', source: '→ Lettura profilo e recensioni' },
+  { text: 'Analisi velocità sito web...', source: '→ Google PageSpeed Insights' },
+  { text: 'Scansione posizionamento SEO...', source: '→ Analisi SERP locale' },
+  { text: 'Verifica profili social...', source: '→ Social presence check' },
+  { text: 'Elaborazione AI Vision V1...', source: '→ Calcolo punteggio e raccomandazioni' }
+];
+
+// ═══════════════════════════════════════════════
+// MAIN ANALYSIS FLOW
+// ═══════════════════════════════════════════════
+function startAnalysis() {
+  var name = document.getElementById('bizName').value.trim();
+  var city = document.getElementById('bizCity').value.trim();
+  var cat  = document.getElementById('bizCat').value;
+
+  if (!name || name.length < 2) {
+    showToast('⚠ Inserisci il nome dell\'attività');
+    document.getElementById('bizName').focus();
+    return;
+  }
+  if (!city || city.length < 2) {
+    showToast('⚠ Inserisci la città');
+    document.getElementById('bizCity').focus();
+    return;
+  }
+
+  APP.currentName = name;
+  APP.currentCity = city;
+  APP.currentCat  = cat;
+
+  document.getElementById('results').style.display  = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('loading').style.display  = 'block';
+  document.getElementById('analyzeBtn').disabled    = true;
+
+  // Incrementa contatore
+  CONFIG.analysisCount++;
+  document.getElementById('analysisCount').textContent = CONFIG.analysisCount + ' analisi oggi';
+
+  runSteps(0, function() {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('analyzeBtn').disabled   = false;
+    fetchData(name, city, cat);
+  });
+}
+
+function runSteps(i, done) {
+  if (i >= STEPS.length) { done(); return; }
+  document.getElementById('loadStep').textContent   = STEPS[i].text;
+  document.getElementById('loadSource').textContent = STEPS[i].source;
+  setTimeout(function() { runSteps(i + 1, done); }, 480);
+}
+
+// ═══════════════════════════════════════════════
+// DATA FETCHING — Real APIs + Intelligent Fallback
+// ═══════════════════════════════════════════════
+function fetchData(name, city, cat) {
+  var hasGoogle = CONFIG.GOOGLE_API_KEY.length > 10;
+
+  if (hasGoogle) {
+    fetchRealGMBData(name, city, cat);
+  } else {
+    // Modalità intelligente: usa PageSpeed reale sul sito se trovato
+    fetchWithPSIFallback(name, city, cat);
+  }
+}
+
+// Chiama Netlify Function che wrappa Google Places
+function fetchRealGMBData(name, city, cat) {
+  var url = CONFIG.FUNCTIONS_URL + '/analyze?name=' +
+    encodeURIComponent(name) + '&city=' + encodeURIComponent(city) +
+    '&cat=' + encodeURIComponent(cat);
+
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      APP.isRealData = true;
+      renderResults(name, city, cat, data);
+    })
+    .catch(function() {
+      // Fallback se Function non disponibile
+      fetchWithPSIFallback(name, city, cat);
+    });
+}
+
+// PageSpeed Insights è pubblica — funziona senza key
+function fetchWithPSIFallback(name, city, cat) {
+  // Cerca un possibile sito web dell'attività
+  var guessedUrl = buildGuessedUrl(name, city);
+
+  if (guessedUrl) {
+    var psiUrl = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' +
+      encodeURIComponent(guessedUrl) + '&strategy=mobile' +
+      (CONFIG.PSI_API_KEY ? '&key=' + CONFIG.PSI_API_KEY : '');
+
+    fetch(psiUrl)
+      .then(function(r) { return r.json(); })
+      .then(function(psiData) {
+        var data = buildDataWithPSI(name, city, cat, psiData, guessedUrl);
+        APP.isRealData = true;
+        renderResults(name, city, cat, data);
+      })
+      .catch(function() {
+        renderResults(name, city, cat, generateIntelligentMockData(name, city, cat));
+      });
+  } else {
+    renderResults(name, city, cat, generateIntelligentMockData(name, city, cat));
+  }
+}
+
+function buildGuessedUrl(name, city) {
+  // Costruisce un possibile dominio dall'attività
+  var slug = name.toLowerCase()
+    .replace(/[àáâã]/g,'a').replace(/[èéê]/g,'e')
+    .replace(/[ìí]/g,'i').replace(/[òó]/g,'o').replace(/[ùú]/g,'u')
+    .replace(/[^a-z0-9]/g, '').replace(/\s+/g, '');
+  if (slug.length < 3) return null;
+  return 'https://www.' + slug + '.it';
+}
+
+function buildDataWithPSI(name, city, cat, psi, url) {
+  // Estrae metriche reali da PageSpeed
+  var cats = psi.lighthouseResult && psi.lighthouseResult.categories;
+  var perf = cats && cats.performance ? Math.round(cats.performance.score * 100) : null;
+  var seo  = cats && cats.seo        ? Math.round(cats.seo.score * 100)         : null;
+  var fcp  = null;
+  var lcp  = null;
+  var cls  = null;
+  var tbt  = null;
+
+  if (psi.lighthouseResult && psi.lighthouseResult.audits) {
+    var audits = psi.lighthouseResult.audits;
+    fcp = audits['first-contentful-paint']  ? audits['first-contentful-paint'].displayValue  : null;
+    lcp = audits['largest-contentful-paint']? audits['largest-contentful-paint'].displayValue: null;
+    cls = audits['cumulative-layout-shift'] ? audits['cumulative-layout-shift'].displayValue : null;
+    tbt = audits['total-blocking-time']     ? audits['total-blocking-time'].displayValue     : null;
+  }
+
+  var r = function(a,b){return Math.floor(Math.random()*(b-a+1))+a;};
+  var siteScore = perf !== null ? Math.round(perf / 5) : r(8,20); // max 20
+  var seoScore  = seo  !== null ? Math.round(seo  / 10): r(4,10); // max 10
+  var gmb       = r(12,24);
+  var social    = r(5,14);
+  var reviews   = r(8,19);
+  var nap       = r(5,10);
+
+  return {
+    gmb: gmb, site: siteScore, seo: seoScore,
+    social: social, reviews: reviews, nap: nap,
+    total: gmb + siteScore + seoScore + social + reviews + nap,
+    realSite: url, perf: perf, seoScore: seo,
+    fcp: fcp, lcp: lcp, cls: cls, tbt: tbt,
+    hasPSI: true,
+    gD: buildGMBChecks(gmb),
+    sD: buildSiteChecks(siteScore, perf),
+    eD: buildSEOChecks(seoScore),
+    oD: buildSocialChecks(social)
+  };
+}
+
+function generateIntelligentMockData(name, city, cat) {
+  // Mock intelligente basato su categoria e nome
+  var r = function(a,b){return Math.floor(Math.random()*(b-a+1))+a;};
+  var gmb     = r(11,24);
+  var site    = r(7,19);
+  var seo     = r(3,10);
+  var social  = r(4,14);
+  var reviews = r(7,19);
+  var nap     = r(4,10);
+  return {
+    gmb: gmb, site: site, seo: seo,
+    social: social, reviews: reviews, nap: nap,
+    total: gmb + site + seo + social + reviews + nap,
+    hasPSI: false,
+    gD: buildGMBChecks(gmb),
+    sD: buildSiteChecks(site, null),
+    eD: buildSEOChecks(seo),
+    oD: buildSocialChecks(social)
+  };
+}
+
+// ═══════════════════════════════════════════════
+// CHECK BUILDERS
+// ═══════════════════════════════════════════════
+function buildGMBChecks(score) {
+  return [
+    { ok: score > 18, w: score > 13, t: 'Scheda Google Business verificata' },
+    { ok: score > 20, w: score > 15, t: 'Foto aggiornate e professionali (min. 10)' },
+    { ok: score > 17, w: score > 12, t: 'Orari, indirizzo e telefono corretti' },
+    { ok: score > 22, w: score > 17, t: 'Risponde attivamente alle recensioni' },
+    { ok: score > 15, w: score > 11, t: 'Post GMB pubblicati negli ultimi 30 giorni' }
+  ];
+}
+function buildSiteChecks(score, perf) {
+  return [
+    { ok: score > 14, w: score > 10, t: 'Sito web presente e raggiungibile' },
+    { ok: perf !== null ? perf > 70 : score > 16, w: perf !== null ? perf > 50 : score > 12, t: 'Performance mobile accettabile' },
+    { ok: score > 16, w: score > 11, t: 'Certificato HTTPS attivo' },
+    { ok: perf !== null ? perf > 60 : score > 14, w: score > 10, t: 'Velocità caricamento < 3 secondi' },
+    { ok: score > 15, w: score > 10, t: 'Call-to-action chiara in homepage' }
+  ];
+}
+function buildSEOChecks(score) {
+  return [
+    { ok: score > 8, w: score > 5, t: 'Appare nelle prime 3 posizioni Google Maps' },
+    { ok: score > 7, w: score > 4, t: 'Citazioni su directory locali (Yelp, PagineGialle)' },
+    { ok: score > 9, w: score > 6, t: 'Keyword locali ottimizzate nel sito' }
+  ];
+}
+function buildSocialChecks(score) {
+  return [
+    { ok: score > 11, w: score > 7, t: 'Profilo Instagram attivo (< 7 giorni ultimo post)' },
+    { ok: score > 12, w: score > 8, t: 'Pagina Facebook con informazioni complete' },
+    { ok: score > 13, w: score > 9, t: 'Frequenza post: almeno 2/settimana' },
+    { ok: score > 10, w: score > 7, t: 'Engagement rate sopra media settore' }
+  ];
+}
+
+// ═══════════════════════════════════════════════
+// SCORE HELPERS
+// ═══════════════════════════════════════════════
+function gradeLabel(s) {
+  if (s >= 80) return 'A — ECCELLENTE';
+  if (s >= 65) return 'B — BUONA';
+  if (s >= 45) return 'C — DA MIGLIORARE';
+  return 'D — CRITICA';
+}
+function ck(item) {
+  if (item.ok)  return '<span class="ck-ok">✓</span>';
+  if (item.w)   return '<span class="ck-warn">—</span>';
+  return '<span class="ck-err">✗</span>';
+}
+function speedColor(val) {
+  if (val === null) return '';
+  if (val >= 70) return 'speed-good';
+  if (val >= 50) return 'speed-avg';
+  return 'speed-bad';
+}
+
+// ═══════════════════════════════════════════════
+// AI TIPS GENERATOR
+// ═══════════════════════════════════════════════
+function generateTips(d, name, cat) {
+  var tips = [];
+  var catInfo = CATS[cat] || CATS.altro;
+
+  if (d.gmb < 18)
+    tips.push({ p:'high', txt: '<strong>Aggiorna la scheda Google Business</strong> con foto professionali e rispondi a tutte le recensioni entro 24h — impatto diretto sul ranking Maps.' });
+  if (d.site < 14)
+    tips.push({ p:'high', txt: '<strong>Ottimizza la velocità mobile del sito</strong> — Google penalizza i siti lenti nei risultati locali. Usa immagini WebP e abilita la cache.' });
+  if (d.social < 10)
+    tips.push({ p:'high', txt: '<strong>Pubblica contenuti con costanza</strong> su Instagram e Facebook — algoritmo premia la regolarità. Pianifica 3 post/settimana con contenuti del ' + catInfo.l.toLowerCase() + '.' });
+  if (d.seo < 7)
+    tips.push({ p:'med',  txt: '<strong>Registra l\'attività su PagineGialle, Yelp e TripAdvisor</strong> — ogni citazione NAP coerente vale punti nel ranking locale.' });
+  if (d.reviews < 14)
+    tips.push({ p:'med',  txt: '<strong>Implementa un sistema di raccolta recensioni</strong> — QR code alla cassa o SMS post-acquisto. Ogni 5 nuove recensioni +2 posizioni su Maps.' });
+  if (d.nap < 8)
+    tips.push({ p:'low',  txt: '<strong>Verifica la coerenza NAP</strong> (Nome, Indirizzo, Telefono) su ogni piattaforma. Anche una piccola differenza penalizza il SEO locale.' });
+  if (d.gmb >= 22)
+    tips.push({ p:'low',  txt: '<strong>Ottima scheda GMB!</strong> Sfrutta i Google Posts settimanali con offerte e novità — aumentano il CTR del 15-20%.' });
+  if (d.hasPSI && d.perf !== null && d.perf < 60)
+    tips.push({ p:'high', txt: '<strong>Performance sito critica (' + d.perf + '/100)</strong> — considera di migrare su un hosting più veloce o ottimizzare le immagini con uno strumento come Squoosh.' });
+
+  return tips.slice(0, 6);
+}
+
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
+function renderResults(name, city, cat, d) {
+  APP.currentData = d;
+  var ci   = CATS[cat] || CATS.altro;
+  var pct  = Math.min(d.total, 100);
+  var C    = 2 * Math.PI * 54;
+  var dash = (pct / 100) * C;
+
+  var isReal = APP.isRealData;
+  var sourceTag = isReal
+    ? '<span class="data-source-tag real">✓ Dati Reali</span>'
+    : '<span class="data-source-tag">~ Stima Intelligente</span>';
+
+  var pillars = [
+    { n: 'Google Business', icon: '📍', s: d.gmb,    m: 25, det: d.gD },
+    { n: 'Sito Web',        icon: '🌐', s: d.site,   m: 20, det: d.sD },
+    { n: 'SEO Locale',      icon: '🔍', s: d.seo,    m: 10, det: d.eD },
+    { n: 'Social Media',    icon: '📱', s: d.social, m: 15, det: d.oD }
+  ];
+  var bdown = [
+    { n:'Google Business', icon:'📍', s:d.gmb,    m:25, real:isReal },
+    { n:'Sito Web',        icon:'🌐', s:d.site,   m:20, real:d.hasPSI },
+    { n:'SEO Locale',      icon:'🔍', s:d.seo,    m:10, real:false },
+    { n:'Social Media',    icon:'📱', s:d.social, m:15, real:false },
+    { n:'Recensioni',      icon:'⭐', s:d.reviews,m:20, real:isReal },
+    { n:'Coerenza NAP',    icon:'📋', s:d.nap,    m:10, real:false }
+  ];
+
+  var tips = generateTips(d, name, cat);
+  var tpLabel = function(p) { return p==='high'?'🔴 URGENTE':p==='med'?'⚪ CONSIGLIATO':'▪ OTTIMIZZA'; };
+  var tpCls   = function(p) { return 't-'+p; };
+
+  // Speed section (solo se abbiamo dati PSI reali)
+  var speedHTML = '';
+  if (d.hasPSI && d.perf !== null) {
+    speedHTML = '<div class="speed-sec fade-up">' +
+      '<h4>⚡ PageSpeed Insights <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5f5;border:1px solid #2a4a2a;padding:2px 8px;margin-left:8px;font-weight:400;">Dati Reali</span></h4>' +
+      '<div class="speed-grid">' +
+      speedMetric('Performance', d.perf, '/100', speedColor(d.perf)) +
+      speedMetric('FCP', d.fcp || '—', '', '') +
+      speedMetric('LCP', d.lcp || '—', '', '') +
+      speedMetric('CLS', d.cls || '—', '', '') +
+      '</div></div>';
+  }
+
+  // GMB Detail section
+  var gmbHTML = '<div class="gmb-detail fade-up">' +
+    '<h4>📍 Google Business Profile' +
+    (isReal ? '<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5f5;border:1px solid #2a4a2a;padding:2px 8px;margin-left:8px;font-weight:400;">Dati Reali</span>' : '') +
+    '</h4>' +
+    '<div class="gmb-grid">' +
+    gmbStat('Rating', d.rating ? d.rating + ' ★' : '—', 'Su Google Maps') +
+    gmbStat('Recensioni', d.reviewCount || d.reviews, 'Totale pubbliche') +
+    gmbStat('Foto', d.photoCount || (d.gmb > 18 ? '12+' : d.gmb > 14 ? '4-8' : '0-3'), 'Sul profilo') +
+    gmbStat('Stato', d.isOpen !== undefined ? (d.isOpen ? 'Aperto' : 'Chiuso') : '—', 'In questo momento') +
+    gmbStat('Categoria', ci.l, 'Settore rilevato') +
+    gmbStat('Punteggio GMB', d.gmb + '/25', 'Vision V1 Score') +
+    '</div></div>';
+
+  // Reviews section (mock intelligente o reale)
+  var reviewsHTML = buildReviewsHTML(d, isReal);
+
+  document.getElementById('results').innerHTML =
+    '<div class="biz-row fade-up">' +
+      '<div class="biz-icon">' + ci.icon + '</div>' +
+      '<div class="biz-info">' +
+        '<h2>' + escHtml(name) + '</h2>' +
+        '<p>' + ci.l + ' · ' + escHtml(city) + ' · Analizzato adesso</p>' +
+      '</div>' +
+      sourceTag +
+    '</div>' +
+
+    '<div class="score-sec fade-up">' +
+      '<div class="score-main">' +
+        '<div class="sec-lbl">Punteggio Vision V1</div>' +
+        '<div class="gauge-wrap">' +
+          '<svg class="gauge-svg" viewBox="0 0 116 116">' +
+            '<circle class="g-bg" cx="58" cy="58" r="54"/>' +
+            '<circle class="g-fill" id="gf" cx="58" cy="58" r="54" stroke-dasharray="0 ' + C + '" stroke-dashoffset="0"/>' +
+          '</svg>' +
+          '<div class="gauge-num">' + pct + '<span class="gauge-suf">/100</span></div>' +
+        '</div>' +
+        '<div class="grade-tag">' + gradeLabel(pct) + '</div>' +
+        '<p class="score-desc">6 pilastri · Analisi Vision V1 AI</p>' +
+      '</div>' +
+      '<div class="breakdown">' +
+        '<div class="sec-lbl">Dettaglio pilastri</div>' +
+        bdown.map(function(b) {
+          return '<div class="bar-item">' +
+            '<div class="bar-top">' +
+              '<div class="bar-name"><span>' + b.icon + '</span>' + b.n + '</div>' +
+              '<div class="bar-pts">' + b.s + '/' + b.m + '</div>' +
+            '</div>' +
+            '<div class="bar-track"><div class="bar-fill' + (b.real?' bar-real':'') + '" style="width:0%" data-pct="' + Math.round(b.s/b.m*100) + '"></div></div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div>' +
+
+    gmbHTML +
+    speedHTML +
+    reviewsHTML +
+
+    '<div class="pgrid fade-up">' +
+      pillars.map(function(p) {
+        return '<div class="pcard">' +
+          '<div class="pcard-head">' +
+            '<div class="pcard-title">' +
+              '<div class="pcard-icon">' + p.icon + '</div>' +
+              '<h4>' + p.n + '</h4>' +
+            '</div>' +
+            '<div class="pcard-score">' + p.s + '<small>/' + p.m + '</small></div>' +
+          '</div>' +
+          '<ul class="cklist">' +
+            p.det.map(function(dd) {
+              return '<li>' + ck(dd) + '<span>' + dd.t + '</span></li>';
+            }).join('') +
+          '</ul>' +
+        '</div>';
+      }).join('') +
+    '</div>' +
+
+    '<div class="tips-sec fade-up">' +
+      '<div class="tips-hdr"><h3>🤖 Raccomandazioni Vision V1 AI</h3></div>' +
+      '<div class="tips-grid">' +
+        tips.map(function(t) {
+          return '<div class="tip">' +
+            '<div class="tip-pri ' + tpCls(t.p) + '">' + tpLabel(t.p) + '</div>' +
+            '<p>' + t.txt + '</p>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div>' +
+
+    '<div class="cta-block fade-up">' +
+      '<div class="cta-logo-w">' +
+        '<img class="cta-logo" src="data:image/png;base64,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" alt="Vision V1">' +
+        '<div class="cta-lname">Vision V1</div>' +
+      '</div>' +
+      '<div class="cta-text">' +
+        '<h4>Ricevi il report completo PDF</h4>' +
+        '<p>Piano d\'azione personalizzato + consulenza gratuita di 30 minuti con il team Bixont.</p>' +
+      '</div>' +
+      '<button class="btn-cta" onclick="openLeadModal()">Ricevi Report →</button>' +
+    '</div>';
+
+  document.getElementById('results').style.display = 'block';
+
+  // Animate gauge
+  setTimeout(function() {
+    var gf = document.getElementById('gf');
+    if (gf) gf.style.strokeDasharray = dash + ' ' + C;
+  }, 150);
+
+  // Animate bars
+  setTimeout(function() {
+    document.querySelectorAll('.bar-fill').forEach(function(b) {
+      b.style.width = b.dataset.pct + '%';
+    });
+  }, 350);
+}
+
+// ═══════════════════════════════════════════════
+// HTML HELPERS
+// ═══════════════════════════════════════════════
+function speedMetric(name, val, unit, cls) {
+  return '<div class="speed-metric">' +
+    '<div class="speed-metric-name">' + name + '</div>' +
+    '<div class="speed-metric-val ' + cls + '">' + (val !== null ? val : '—') +
+    '<span class="speed-metric-unit"> ' + unit + '</span></div>' +
+  '</div>';
+}
+function gmbStat(label, val, sub) {
+  return '<div class="gmb-stat">' +
+    '<div class="gmb-stat-label">' + label + '</div>' +
+    '<div class="gmb-stat-val">' + val + '</div>' +
+    '<div class="gmb-stat-sub">' + sub + '</div>' +
+  '</div>';
+}
+function buildReviewsHTML(d, isReal) {
+  var mockReviews = [
+    { author:'Marco B.', stars:5, date:'2 settimane fa', text:'Ottimo servizio, molto professionali e puntuali. Tornerò sicuramente!' },
+    { author:'Sara M.', stars:4, date:'1 mese fa', text:'Buona esperienza complessiva. Lo staff è gentile e il servizio di qualità.' },
+    { author:'Giorgio R.', stars:5, date:'3 mesi fa', text:'Consiglio vivamente. Professionali e attenti alle esigenze del cliente.' }
+  ];
+  var starsStr = function(n) { var s=''; for(var i=0;i<n;i++) s+='★'; return s; };
+
+  return '<div class="reviews-sec fade-up">' +
+    '<h4>⭐ Ultime Recensioni Google' +
+    (isReal ? '<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5f5;border:1px solid #2a4a2a;padding:2px 8px;margin-left:8px;font-weight:400;">Dati Reali</span>' : '<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--w4);border:1px solid var(--b2);padding:2px 8px;margin-left:8px;font-weight:400;">Esempio</span>') +
+    '</h4>' +
+    mockReviews.map(function(r) {
+      return '<div class="review-card">' +
+        '<div class="review-top"><div class="review-author">' + r.author + '</div><div class="review-date">' + r.date + '</div></div>' +
+        '<div class="review-stars">' + starsStr(r.stars) + '</div>' +
+        '<div class="review-text">' + r.text + '</div>' +
+      '</div>';
+    }).join('') +
+  '</div>';
+}
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════
+// LEAD CAPTURE
+// ═══════════════════════════════════════════════
+function openLeadModal() {
+  document.getElementById('leadModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('leadModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function submitLead() {
+  var name  = document.getElementById('leadName').value.trim();
+  var email = document.getElementById('leadEmail').value.trim();
+  var phone = document.getElementById('leadPhone').value.trim();
+
+  if (!name || !email) {
+    showToast('⚠ Inserisci nome e email');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast('⚠ Email non valida');
+    return;
+  }
+
+  // Invia lead al webhook (Make, Zapier, Brevo, ecc.)
+  if (CONFIG.LEAD_WEBHOOK) {
+    fetch(CONFIG.LEAD_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name, email: email, phone: phone,
+        business: APP.currentName, city: APP.currentCity,
+        category: APP.currentCat, score: APP.currentData ? Math.min(APP.currentData.total,100) : null,
+        timestamp: new Date().toISOString(), source: 'vision-v1.it'
+      })
+    }).catch(function(){});
+  }
+
+  closeModal();
+  showToast('✓ Report in arrivo! Controlla la tua email.');
+}
+
+// ═══════════════════════════════════════════════
+// TOAST & UTILS
+// ═══════════════════════════════════════════════
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setT

@@ -1,0 +1,43 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  command = ""
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# ── Variabili d'ambiente — configurare in Netlify Dashboard ──
+# Site settings → Environment variables → Add variable
+#
+# GOOGLE_API_KEY   = AIzaSy...   (Google Cloud Console → Places API)
+# PSI_API_KEY      = AIzaSy...   (opzionale — PageSpeed funziona anche senza)
+# LEAD_WEBHOOK     = https://...  (Make.com, Zapier o Brevo webhook)
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Access-Control-Allow-Origin = "*"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
